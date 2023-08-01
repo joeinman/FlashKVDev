@@ -73,7 +73,7 @@ int main(int argc, char *argv[])
     else if (loadStatus == 1)
         std::cout << "No FlashKV Store Found. A New One Will Be Created Upon Saving" << std::endl;
     else
-        std::cout << "Error occurred while loading the FlashKV Store" << std::endl;
+        std::cout << "Error Occurred While Loading The FlashKV Store" << std::endl;
 
     // Try To Read A Value From The Store
     std::string key = "test";
@@ -98,6 +98,7 @@ int main(int argc, char *argv[])
     std::vector<uint8_t> data = {0x01, 0x02, 0x03, 0x04};
     flashKV.writeKey(key, data);
 
+    // Write Another Value To The Store
     flashKV.writeKey("test2", {0x05, 0x06, 0x07, 0x08});
 
     std::cout << "Writing Key: [" << key << "], Value: [";
@@ -108,6 +109,28 @@ int main(int argc, char *argv[])
         std::cout << std::hex << std::setw(2) << std::setfill('0') << (int)*it;
     }
     std::cout << "]" << std::endl;
+
+    std::cout << "All Keys:" << std::endl;
+    auto allKeys = flashKV.getAllKeys();
+    for (auto key : allKeys)
+    {
+        std::cout << "Key: [" << key << "], Value: [";
+        std::optional<std::vector<uint8_t>> value = flashKV.readKey(key);
+        if (value)
+        {
+            for (auto it = value->begin(); it != value->end(); ++it)
+            {
+                if (it != value->begin())
+                    std::cout << " ";
+                std::cout << std::hex << std::setw(2) << std::setfill('0') << (int)*it;
+            }
+        }
+        else
+        {
+            std::cout << "Not Found";
+        }
+        std::cout << "]" << std::endl;
+    }
 
     // Save The Store To Flash
     if (flashKV.saveStore())
