@@ -1,0 +1,3 @@
+[submodule "external/FlashKV"]
+	path = external/FlashKV
+	url = https://github.com/joeinman/FlashKV
