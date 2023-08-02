@@ -16,12 +16,10 @@ Replace `<FlashKV File>` with the path to your FlashKV binary file.
 
 ## Inspecting The Binary File
 
-If you want to inspect the contents of the binary file, you can use the `format-hex` command on Windows. This command will output the contents of the binary file in hexadecimal format.
-
-Use the following command to output the contents to a text file:
+If you want to inspect the contents of the binary file, you can use the `format-hex` command on Windows. Use the following command to output the contents to a text file:
 
 ```
 format-hex <FlashKV File> >> FlashKV.txt
 ```
 
-Replace `<FlashKV File>` with the path to your FlashKV binary file. The `>>` operator will append the output to `FlashKV.txt`.
+Replace `<FlashKV File>` with the path to your FlashKV binary file.

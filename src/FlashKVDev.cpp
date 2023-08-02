@@ -1,22 +1,22 @@
-#include <fstream>
-#include <iostream>
+// Includes
+#include <FlashKV/FlashKV.h>
 #include <optional>
+#include <iostream>
+#include <sstream>
+#include <fstream>
 #include <iomanip>
 #include <vector>
-#include <sstream>
-
-#include <FlashKV/FlashKV.h>
 
 void printHelp()
 {
-    std::cout << "Available Commands:\n"
-              << "read <key> - Reads a value associated with a key from the store.\n"
-              << "readall - Reads all keys in the store.\n"
-              << "write <key> <value> - Writes a key-value pair to the store. Value should be a sequence of bytes in hexadecimal format.\n"
-              << "erase <key> - Erases a key-value pair from the store.\n"
-              << "eraseall - Erases all key-value pairs from the store.\n"
-              << "save - Saves the key-value store to Flash memory.\n"
-              << "exit - Exits the program.\n";
+    std::cout << "[INFO] Available Commands:" << std::endl
+              << "[INFO] read <key> - Reads A Key-Value Pair From The Store" << std::endl
+              << "[INFO] readall - Reads All Key-Value Pairs In The Store" << std::endl
+              << "[INFO] write <key> <value> - Writes A Key-Value Pair To The Store, Where The Value Should Be A Sequence Of Bytes In Hexadecimal Format" << std::endl
+              << "[INFO] erase <key> - Erases A Key-Value Pair From The Store" << std::endl
+              << "[INFO] eraseall - Erases All Key-Value Pairs From The Store" << std::endl
+              << "[INFO] save - Saves The Store To Flash Memory" << std::endl
+              << "[INFO] exit - Exits The Program" << std::endl;
 }
 
 int main(int argc, char *argv[])
@@ -147,27 +147,36 @@ int main(int argc, char *argv[])
             std::string key;
             if (!(iss >> key))
             {
-                std::cout << "[Error] No key provided.\n";
+                std::cout << "[Error] No Key Provided\n";
                 continue;
             }
 
             std::vector<uint8_t> value;
             std::string byteStr;
+            bool invalidByteFound = false;
             while (iss >> byteStr)
             {
                 if (byteStr.size() != 2)
                 {
                     std::cout << "[ERROR] Invalid Byte: " << byteStr << std::endl;
+                    invalidByteFound = true;
                     break;
                 }
                 unsigned int byte = std::stoul(byteStr, nullptr, 16);
                 value.push_back(static_cast<uint8_t>(byte));
             }
 
-            if (flashKV.writeKey(key, value))
-                std::cout << "[INFO] Key \"" << key << "\" Written Successfully" << std::endl;
+            if (invalidByteFound)
+            {
+                std::cout << "[ERROR] Invalid Byte Encountered, Key \"" << key << "\" Was Not Written" << std::endl;
+            }
             else
-                std::cout << "[ERROR] Unable To Write Key \"" << key << "\"" << std::endl;
+            {
+                if (flashKV.writeKey(key, value))
+                    std::cout << "[INFO] Key \"" << key << "\" Written Successfully" << std::endl;
+                else
+                    std::cout << "[ERROR] Unable To Write Key \"" << key << "\"" << std::endl;
+            }
         }
         else if (op == "erase")
         {
