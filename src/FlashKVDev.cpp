@@ -79,15 +79,15 @@ int main(int argc, char *argv[])
         0,
         8192);
 
-    // Load The Store From File
-    int loadStatus = flashKV.loadStore();
+    // Load The Map From File
+    int loadStatus = flashKV.loadMap();
     if (loadStatus == 0)
-        std::cout << "[INFO] FlashKV Store Loaded Successfully" << std::endl;
+        std::cout << "[INFO] FlashKV Map Loaded Successfully" << std::endl;
     else if (loadStatus == 1)
-        std::cout << "[INFO] No FlashKV Store Found. A New One Will Be Created Upon Saving" << std::endl;
+        std::cout << "[INFO] No FlashKV Map Found. A New One Will Be Created Upon Saving" << std::endl;
     else
     {
-        std::cout << "[ERROR] Error Occurred While Loading The FlashKV Store" << std::endl;
+        std::cout << "[ERROR] Error Occurred While Loading The FlashKV Map" << std::endl;
         return 1;
     }
 
@@ -202,11 +202,11 @@ int main(int argc, char *argv[])
         }
         else if (op == "save")
         {
-            // Save The Store To Flash
-            if (flashKV.saveStore())
-                std::cout << "[INFO] FlashKV Store Saved Successfully" << std::endl;
+            // Save The Map To Flash
+            if (flashKV.saveMap())
+                std::cout << "[INFO] FlashKV Map Saved Successfully" << std::endl;
             else
-                std::cout << "[ERROR] Error Occurred While Saving The FlashKV Store" << std::endl;
+                std::cout << "[ERROR] Error Occurred While Saving The FlashKV Map" << std::endl;
         }
         else if (op == "help")
         {
@@ -214,11 +214,11 @@ int main(int argc, char *argv[])
         }
         else if (op == "exit")
         {
-            // Save The Store To Flash
-            if (flashKV.saveStore())
-                std::cout << "[INFO] FlashKV Store Saved Successfully" << std::endl;
+            // Save The Map To Flash
+            if (flashKV.saveMap())
+                std::cout << "[INFO] FlashKV Map Saved Successfully" << std::endl;
             else
-                std::cout << "[ERROR] Error Occurred While Saving The FlashKV Store" << std::endl;
+                std::cout << "[ERROR] Error Occurred While Saving The FlashKV Map" << std::endl;
             break;
         }
         else
