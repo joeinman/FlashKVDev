@@ -80,10 +80,16 @@ int main(int argc, char *argv[])
         8192);
 
     // Load The Map From File
-    if (flashKV.loadMap())
+    int loadStatus = flashKV.loadMap();
+    if (loadStatus == 1)
         std::cout << "[INFO] FlashKV Map Loaded Successfully" << std::endl;
-    else
+    else if (loadStatus == 2)
         std::cout << "[INFO] No FlashKV Map Found. A New One Will Be Created Upon Saving" << std::endl;
+    else if (loadStatus == 0)
+    {
+        std::cout << "[ERROR] Error Occurred While Loading The FlashKV Map" << std::endl;
+        return 1;
+    }
 
     std::string command;
     while (1)
